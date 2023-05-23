@@ -1,8 +1,8 @@
 import { IError } from "../interfaces/error.interface";
-import { IShoesFavorites } from "../interfaces/shoes.interface";
+import { IShoes } from "../interfaces/shoes.interface";
 import axiosInstance from "../utils/axiosInstance";
 
-export async function addFavorite(
+export async function addToFavorite(
   id: string
 ): Promise<{ data?: boolean; error?: IError }> {
   try {
@@ -18,7 +18,7 @@ export async function addFavorite(
   }
 }
 
-export async function removeFavorite(
+export async function removeToFavorite(
   id: string
 ): Promise<{ data?: boolean; error?: IError }> {
   try {
@@ -51,7 +51,7 @@ export async function getFavorite(
 }
 
 export async function getFavorites(): Promise<{
-  data?: IShoesFavorites[];
+  data?: IShoes[];
   error?: IError;
 }> {
   try {

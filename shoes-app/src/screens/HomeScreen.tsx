@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import { IShoesHome } from "../interfaces/shoes.interface";
+import { IShoes } from "../interfaces/shoes.interface";
 import ShoesCard from "../components/ShoesCard";
 import { getBrands, getShoes } from "../services/shoes";
 import { UserContext } from "../contexts/UserContext";
 
 function HomeScreen() {
-  const [shoes, setShoes] = useState([] as IShoesHome[]);
+  const [shoes, setShoes] = useState([] as IShoes[]);
   const [brands, setBrands] = useState([] as string[]);
 
   const { data, updateData } = useContext(UserContext);
@@ -26,8 +26,6 @@ function HomeScreen() {
   useEffect(() => {
     findShoes();
     findBrands();
-
-    console.log(data);
   }, []);
 
   return (

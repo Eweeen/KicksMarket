@@ -1,25 +1,27 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { IShoesHome } from "../interfaces/shoes.interface";
+import { IShoes } from "../interfaces/shoes.interface";
 import { FontAwesome } from "@expo/vector-icons";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { addFavorite, removeFavorite } from "../services/user";
+import { UserContext } from "../contexts/UserContext";
 
-const ShoesCard = ({ shoes }: { shoes: IShoesHome }) => {
+const ShoesCard = ({ shoes }: { shoes: IShoes }) => {
   const navigation = useNavigation();
-  const [isFavoris, setIsFavoris] = useState(shoes.isFavorite);
+  const [isFavoris, setIsFavoris] = useState(false);
+  
+  const { favorites, addFavorite, removeFavorite } = useContext(UserContext);
 
   const toggleFavoris = async (_id: string) => {
     if (isFavoris) {
-      const { error } = await removeFavorite(shoes._id);
-      if (error) return;
-      setIsFavoris(false);
+      removeFavorite(shoes._id);
     } else {
-      const { error } = await addFavorite(shoes._id);
-      if (error) return;
-      setIsFavoris(true);
+      addFavorite(shoes);
     }
   }
+
+  useEffect(() => {
+    setIsFavoris(favorites.find(favorite => favorite._id === shoes._id) ? true : false);
+  }, [favorites]);
 
   return (
     <View style={styles.container}>
