@@ -5,14 +5,14 @@ import { getUserId } from "../utils/auth";
 const Shoes = db.shoes;
 const User = db.user;
 
-export const findShoes = (req: Request, res: Response) => {
-  Shoes.find({})
-    .then((shoes) => {
-      res.status(200).send(shoes);
-    })
-    .catch((err) => {
-      res.status(500).send({ message: err });
-    });
+export const findShoes = async (req: Request, res: Response) => {
+  const shoes = await Shoes.find({ hidden: false });
+
+  if (!shoes) {
+    res.status(404).json({ message: "Shoes not found" });
+  }
+
+  res.status(200).json(shoes);
 };
 
 export const findShoesHome = async (req: Request, res: Response) => {

@@ -176,8 +176,8 @@ export default function (app: Express) {
     authorize(["user", "admin"]),
     controller.findAllByBrand
   );
+  app.get("/shoes", authorize(["user", "admin"]), controller.findShoes);
   // Routes admin
-  app.get("/shoes", authorize(["admin"]), controller.findShoes);
   app.post("/shoes", authorize(["admin"]), controller.addShoes);
   app.patch("/shoes/:id", authorize(["admin"]), controller.updateShoes);
   app.delete("/shoes/:id", authorize(["admin"]), controller.deleteShoes);
