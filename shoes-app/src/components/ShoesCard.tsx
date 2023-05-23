@@ -11,7 +11,7 @@ const ShoesCard = ({ shoes }: { shoes: IShoes }) => {
   
   const { favorites, addFavorite, removeFavorite } = useContext(UserContext);
 
-  const toggleFavoris = async (_id: string) => {
+  const toggleFavoris = () => {
     if (isFavoris) {
       removeFavorite(shoes._id);
     } else {
@@ -26,7 +26,7 @@ const ShoesCard = ({ shoes }: { shoes: IShoes }) => {
   return (
     <View style={styles.container}>
       <View style={styles.topRound}></View>
-      <TouchableOpacity style={styles.favoris} onPress={() => toggleFavoris(shoes._id)}>
+      <TouchableOpacity style={styles.favoris} onPress={() => toggleFavoris}>
         {
           isFavoris
             ? <FontAwesome name="heart" size={24} color="#fc81c5" />
@@ -34,7 +34,7 @@ const ShoesCard = ({ shoes }: { shoes: IShoes }) => {
         }
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.navigate} onPress={() => { navigation.navigate('Shoes', { id: shoes._id }) }}>
+      <TouchableOpacity style={styles.navigate} onPress={() => { navigation.navigate('Shoes', { shoes }) }}>
         <View style={styles.imageContainer}>
           <Image
             source={{ uri: `https://images.stockx.com/360/${shoes.image}/Images/${shoes.image}/Lv2/img01.jpg?fm=avif&auto=compress` }}

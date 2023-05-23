@@ -16,7 +16,7 @@ const FavoriteShoesCard = ({ shoes }: { shoes: IShoes }) => {
       return;
     }
 
-    navigation.navigate('Shoes', { id: shoes._id });
+    navigation.navigate('Shoes', { shoes });
   }
 
   return (
