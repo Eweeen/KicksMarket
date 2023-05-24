@@ -20,13 +20,14 @@ const ShoesCard = ({ shoes }: { shoes: IShoes }) => {
   }
 
   useEffect(() => {
-    setIsFavoris(favorites.find(favorite => favorite._id === shoes._id) ? true : false);
+    const findFavoris = favorites?.find(favorite => favorite._id === shoes._id);
+    setIsFavoris(findFavoris ? true : false);
   }, [favorites]);
 
   return (
     <View style={styles.container}>
       <View style={styles.topRound}></View>
-      <TouchableOpacity style={styles.favoris} onPress={() => toggleFavoris}>
+      <TouchableOpacity style={styles.favoris} onPress={() => toggleFavoris()}>
         {
           isFavoris
             ? <FontAwesome name="heart" size={24} color="#fc81c5" />
@@ -34,7 +35,7 @@ const ShoesCard = ({ shoes }: { shoes: IShoes }) => {
         }
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.navigate} onPress={() => { navigation.navigate('Shoes', { shoes }) }}>
+      <TouchableOpacity style={styles.navigate} onPress={() => navigation.navigate('Shoes', { shoes }) }>
         <View style={styles.imageContainer}>
           <Image
             source={{ uri: `https://images.stockx.com/360/${shoes.image}/Images/${shoes.image}/Lv2/img01.jpg?fm=avif&auto=compress` }}

@@ -31,7 +31,7 @@ const UserContextProvider = ({ children }: any) => {
       const { data, error } = await getFavorites();
 
       if (error) {
-        console.error('Erreur lors de la récupération des favoris :', error);
+        console.log('Erreur lors de la récupération des favoris :', error.message);
         return;
       }
 

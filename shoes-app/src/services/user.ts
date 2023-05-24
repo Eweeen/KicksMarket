@@ -34,22 +34,6 @@ export async function removeToFavorite(
   }
 }
 
-export async function getFavorite(
-  shoes_id: string
-): Promise<{ data?: boolean; error?: IError }> {
-  try {
-    const res = await axiosInstance.get(`/favorite/${shoes_id}`);
-    return { data: res.data };
-  } catch (e: any) {
-    return {
-      error: {
-        message: e.response.data.message,
-        status: e.response.status,
-      },
-    };
-  }
-}
-
 export async function getFavorites(): Promise<{
   data?: IShoes[];
   error?: IError;
@@ -58,6 +42,11 @@ export async function getFavorites(): Promise<{
     const res = await axiosInstance.get(`/favorite`);
     return { data: res.data };
   } catch (e: any) {
-    return e.response;
+    return {
+      error: {
+        message: e.response.data.message,
+        status: e.response.status,
+      },
+    };
   }
 }
