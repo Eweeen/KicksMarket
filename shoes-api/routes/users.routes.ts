@@ -24,4 +24,6 @@ export default function (app: Express) {
   app.post("/cart/:id", authorize(["user", "admin"]), controller.addCart);
   app.delete("/cart/:id", authorize(["user", "admin"]), controller.removeCart);
   app.get("/cart", authorize(["user", "admin"]), controller.getCart);
+  // User
+  app.delete("/user/:id", authorize(["user", "admin"]), controller.deleteUser);
 }
