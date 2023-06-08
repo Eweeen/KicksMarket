@@ -14,20 +14,9 @@ export interface ISizes {
   quantity: number;
 }
 
-export interface IShoesHome {
+export interface IShoesCart {
   _id: string;
-  name: string;
-  price: number;
-  brand: string;
-  image: string;
-  isFavorite: boolean;
-}
-
-export interface IShoesFavorites {
-  _id: string;
-  name: string;
-  price: number;
-  brand: string;
-  image: string;
-  soldOut: boolean;
+  shoes: IShoes;
+  quantity: number;
+  size: number;
 }
