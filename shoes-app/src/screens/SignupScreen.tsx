@@ -1,6 +1,6 @@
-import { NavigationProp } from "@react-navigation/native";
+import { CommonActions, NavigationProp } from "@react-navigation/native";
 import { useState } from "react";
-import { SafeAreaView, StyleSheet, TextInput, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Text, Button, TouchableOpacity } from "react-native";
+import { SafeAreaView, StyleSheet, TextInput, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Text, Button, TouchableOpacity, Alert } from "react-native";
 import CustomButton from "../components/CustomButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { signUp } from "../services/auth";
@@ -47,7 +47,18 @@ function SignUpScreen({ navigation }: { navigation: NavigationProp<ReactNavigati
       return;
     }
 
-    console.log(data);
+    const login = CommonActions.reset({
+      index: 1,
+      routes: [{ name: 'Login' }],
+    });
+
+    Alert.alert(
+      "Votre compte a bien été créé !",
+      "Vous pouvez désormais vous connecter",
+      [
+        { text: "OK", onPress: () => navigation.dispatch(login) }
+      ]
+    );
 
     setLoader(false);
   }

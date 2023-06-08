@@ -1,30 +1,33 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { IShoesHome } from "../interfaces/shoes.interface";
+import { IShoes } from "../../interfaces/shoes.interface";
 import { FontAwesome } from "@expo/vector-icons";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { addFavorite, removeFavorite } from "../services/user";
+import { UserContext } from "../../contexts/UserContext";
 
-const ShoesCard = ({ shoes }: { shoes: IShoesHome }) => {
+const ShoesCard = ({ shoes }: { shoes: IShoes }) => {
   const navigation = useNavigation();
-  const [isFavoris, setIsFavoris] = useState(shoes.isFavorite);
+  const [isFavoris, setIsFavoris] = useState(false);
+  
+  const { favorites, addFavorite, removeFavorite } = useContext(UserContext);
 
-  const toggleFavoris = async (_id: string) => {
+  const toggleFavoris = () => {
     if (isFavoris) {
-      const { error } = await removeFavorite(shoes._id);
-      if (error) return;
-      setIsFavoris(false);
+      removeFavorite(shoes._id);
     } else {
-      const { error } = await addFavorite(shoes._id);
-      if (error) return;
-      setIsFavoris(true);
+      addFavorite(shoes);
     }
   }
+
+  useEffect(() => {
+    const findFavoris = favorites?.find(favorite => favorite._id === shoes._id);
+    setIsFavoris(findFavoris ? true : false);
+  }, [favorites]);
 
   return (
     <View style={styles.container}>
       <View style={styles.topRound}></View>
-      <TouchableOpacity style={styles.favoris} onPress={() => toggleFavoris(shoes._id)}>
+      <TouchableOpacity style={styles.favoris} onPress={() => toggleFavoris()}>
         {
           isFavoris
             ? <FontAwesome name="heart" size={24} color="#fc81c5" />
@@ -32,7 +35,7 @@ const ShoesCard = ({ shoes }: { shoes: IShoesHome }) => {
         }
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.navigate} onPress={() => { navigation.navigate('Shoes', { id: shoes._id }) }}>
+      <TouchableOpacity style={styles.navigate} onPress={() => navigation.navigate('Shoes', { shoes }) }>
         <View style={styles.imageContainer}>
           <Image
             source={{ uri: `https://images.stockx.com/360/${shoes.image}/Images/${shoes.image}/Lv2/img01.jpg?fm=avif&auto=compress` }}

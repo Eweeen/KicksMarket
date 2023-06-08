@@ -1,7 +1,9 @@
 import HomeScreen from './HomeScreen';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import CustomDrawer from '../components/CustomDrawer';
+import CustomDrawer from '../components/navigation/CustomDrawer';
 import FavoritesScreen from './FavoritesScreen';
+import ProfileScreen from './ProfileScreen';
+import CartScreen from './CartScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -37,6 +39,12 @@ function Slot() {
         }} />
         <Drawer.Screen name="FavoritesScreen" component={FavoritesScreen} options={{
           title: "Favoris",
+        }} />
+        <Drawer.Screen name="CartScreen" component={CartScreen} options={{
+          title: "Panier",
+        }} />
+        <Drawer.Screen name="ProfileScreen" component={ProfileScreen} options={{
+          title: "Profile",
         }} />
       </Drawer.Navigator>
     </>

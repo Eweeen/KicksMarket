@@ -1,8 +1,8 @@
 import { IError } from "../interfaces/error.interface";
-import { IShoesFavorites } from "../interfaces/shoes.interface";
+import { IShoes, IShoesCart } from "../interfaces/shoes.interface";
 import axiosInstance from "../utils/axiosInstance";
 
-export async function addFavorite(
+export async function addToFavorite(
   id: string
 ): Promise<{ data?: boolean; error?: IError }> {
   try {
@@ -18,7 +18,7 @@ export async function addFavorite(
   }
 }
 
-export async function removeFavorite(
+export async function removeToFavorite(
   id: string
 ): Promise<{ data?: boolean; error?: IError }> {
   try {
@@ -34,11 +34,12 @@ export async function removeFavorite(
   }
 }
 
-export async function getFavorite(
-  shoes_id: string
-): Promise<{ data?: boolean; error?: IError }> {
+export async function getFavorites(): Promise<{
+  data?: IShoes[];
+  error?: IError;
+}> {
   try {
-    const res = await axiosInstance.get(`/favorite/${shoes_id}`);
+    const res = await axiosInstance.get(`/favorite`);
     return { data: res.data };
   } catch (e: any) {
     return {
@@ -50,14 +51,58 @@ export async function getFavorite(
   }
 }
 
-export async function getFavorites(): Promise<{
-  data?: IShoesFavorites[];
+export async function addToCart(
+  id: string,
+  quantity: number,
+  size: number
+): Promise<{ data?: IShoesCart; error?: IError }> {
+  try {
+    const res = await axiosInstance.post(`/cart/${id}`, {
+      quantity,
+      size,
+    });
+
+    return { data: res.data };
+  } catch (e: any) {
+    return {
+      error: {
+        message: e.response.data.message,
+        status: e.response.status,
+      },
+    };
+  }
+}
+
+export async function getCart(): Promise<{
+  data?: IShoesCart[];
   error?: IError;
 }> {
   try {
-    const res = await axiosInstance.get(`/favorite`);
+    const res = await axiosInstance.get(`/cart`);
     return { data: res.data };
   } catch (e: any) {
-    return e.response;
+    return {
+      error: {
+        message: e.response.data.message,
+        status: e.response.status,
+      },
+    };
+  }
+}
+
+export async function deleteUser(id: string): Promise<{
+  data?: string;
+  error?: IError;
+}> {
+  try {
+    const res = await axiosInstance.delete(`/user/${id}`);
+    return { data: res.data };
+  } catch (e: any) {
+    return {
+      error: {
+        message: e.response.data.message,
+        status: e.response.status,
+      },
+    };
   }
 }

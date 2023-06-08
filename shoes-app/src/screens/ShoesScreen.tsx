@@ -1,56 +1,46 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Alert, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { getShoesById } from "../services/shoes";
 import { IShoes } from "../interfaces/shoes.interface";
 import { FontAwesome } from "@expo/vector-icons";
 import RNPickerSelect from 'react-native-picker-select';
-import { addFavorite, getFavorite, removeFavorite } from "../services/user";
 import ShoesImage from "../components/shoes/ShoesImage";
+import { UserContext } from "../contexts/UserContext";
 
 function ShoesScreen({ route }: { route: any }) {
-  const [shoes, setShoes] = useState({} as IShoes);
+  const [shoes, setShoes] = useState(route.params.shoes as IShoes);
   const [isFavoris, setIsFavoris] = useState(false);
 
-  const [selectedId, setSelectedId] = useState(undefined as number | undefined);
-  const [selectedNumber, setSelectedNumber] = useState(1);
+  const { favorites, addFavorite, removeFavorite, addCart } = useContext(UserContext);
+
+  const [selectedSize, setSelectedSize] = useState(undefined as number | undefined);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
   const numberOptions = Array.from({ length: 5 }, (_, index) => ({
     label: (index + 1).toString(),
     value: index + 1,
   }));
 
-  const getShoes = async () => {    
-    const { data, error } = await getShoesById(route.params.id);
-    if (error || !data) return;
-    setShoes(data);
-  };
-
-  const findFavorite = async () => {
-    const { data } = await getFavorite(route.params.id);
-    setIsFavoris(data ?? false);
-  }
-
-  const toggleFavoris = async (_id: string) => {
+  const toggleFavoris = () => {
     if (isFavoris) {
-      const { error } = await removeFavorite(shoes._id);
-      if (error) return;
-      setIsFavoris(false);
+      removeFavorite(shoes._id);
     } else {
-      const { error } = await addFavorite(shoes._id);
-      if (error) return;
-      setIsFavoris(true);
+      addFavorite(shoes);
     }
   }
 
-  const addToCart = () => {
-    if (!selectedId) return Alert.alert("Veuillez sélectionner une taille");
+  const addShoesToCart = async () => {
+    if (!selectedSize) return Alert.alert("Veuillez sélectionner une taille");
+    if (!selectedQuantity) return Alert.alert("Veuillez sélectionner une quantité");
+
+    const error = await addCart(shoes, selectedQuantity, selectedSize);
+
+    if (error) return Alert.alert(error);
 
     return Alert.alert("Ajouté au panier !");
   }
 
   useEffect(() => {
-    getShoes();
-    findFavorite();
-  }, []);
+    setIsFavoris(favorites.find(favorite => favorite._id === shoes._id) ? true : false);
+  }, [favorites]);
 
   return(
     <>
@@ -74,17 +64,17 @@ function ShoesScreen({ route }: { route: any }) {
                 <TouchableOpacity
                   style={[
                     styles.sizeContainer,
-                    item.size === selectedId
+                    item.size === selectedSize
                       ? { backgroundColor: "#000" }
                       : item.quantity > 0
                         ? { backgroundColor: "#CBCBCB" }
                         : { backgroundColor: "#EBEBEB" },
                   ]}
-                  onPress={() => item.quantity > 0 ? setSelectedId(item.size) : null}
+                  onPress={() => item.quantity > 0 ? setSelectedSize(item.size) : null}
                 >
                   <Text style={[
                     styles.size,
-                    item.size === selectedId
+                    item.size === selectedSize
                       ? { color: "#fff" }
                       : item.quantity > 0
                         ? { color: "#000" }
@@ -101,8 +91,8 @@ function ShoesScreen({ route }: { route: any }) {
 
             <View style={styles.quantity}>
               <RNPickerSelect
-                value={selectedNumber}
-                onValueChange={(value) => setSelectedNumber(value)}
+                value={selectedQuantity}
+                onValueChange={(value) => setSelectedQuantity(value)}
                 items={numberOptions}
                 Icon={() => <FontAwesome name="chevron-down" size={12} />}
               />
@@ -117,7 +107,7 @@ function ShoesScreen({ route }: { route: any }) {
         </ScrollView>
 
         <View style={styles.actions}>
-          <TouchableOpacity style={styles.favorite} onPress={() => toggleFavoris(shoes._id)}>
+          <TouchableOpacity style={styles.favorite} onPress={() => toggleFavoris}>
             {
               isFavoris
                 ? <FontAwesome name="heart" size={32} color="#fc81c5" />
@@ -125,7 +115,7 @@ function ShoesScreen({ route }: { route: any }) {
             }
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.panier} onPress={() => addToCart()}>
+          <TouchableOpacity style={styles.panier} onPress={() => addShoesToCart()}>
             <Text style={styles.panierText}>Ajouter au panier</Text>
           </TouchableOpacity>
         </View>
@@ -192,6 +182,7 @@ const styles = StyleSheet.create({
   },
   size: {
     fontSize: 24,
+    fontWeight: "600",
     paddingHorizontal: 22,
     paddingVertical: 32,
   },

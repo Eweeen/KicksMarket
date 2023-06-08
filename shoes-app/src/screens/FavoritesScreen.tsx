@@ -1,21 +1,13 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import { IShoesFavorites } from "../interfaces/shoes.interface";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import FavoriteShoesCard from "../components/favorites/FavoriteShoesCard";
-import { getShoesInFavorites } from "../services/shoes";
+import { UserContext } from "../contexts/UserContext";
+import useHeaderOptions from "../components/navigation/useHeaderOptions";
 
 function FavoritesScreen() {
-  const [shoes, setShoes] = useState([] as IShoesFavorites[]);
+  const { favorites } = useContext(UserContext);
 
-  const findFavorites = async () => {
-    const { data, error } = await getShoesInFavorites();
-    if (error) return;
-    setShoes(data ?? []);
-  }
-
-  useEffect(() => {
-    findFavorites();
-  }, []);
+  useHeaderOptions();
 
   return (
     <>
@@ -23,7 +15,7 @@ function FavoritesScreen() {
         <Text style={styles.title}>Mes Favoris</Text>
 
         <FlatList
-          data={shoes}
+          data={favorites}
           renderItem={({ item }) => (<FavoriteShoesCard shoes={item} />)}
           keyExtractor={item => item._id}
         ></FlatList>
@@ -41,7 +33,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: '900',
-    marginBottom: 40,
+    marginBottom: 18,
     color: '#9729D6',
   },
 });

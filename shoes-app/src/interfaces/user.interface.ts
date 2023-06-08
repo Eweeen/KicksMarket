@@ -9,3 +9,9 @@ export interface IUser {
   panier: string[];
   favoris: string[];
 }
+
+export interface IDecodedToken {
+  user: IUser;
+  exp: number;
+  iat: number;
+}
