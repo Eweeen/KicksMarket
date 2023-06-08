@@ -2,9 +2,12 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useContext } from "react";
 import FavoriteShoesCard from "../components/favorites/FavoriteShoesCard";
 import { UserContext } from "../contexts/UserContext";
+import useHeaderOptions from "../components/navigation/useHeaderOptions";
 
 function FavoritesScreen() {
   const { favorites } = useContext(UserContext);
+
+  useHeaderOptions();
 
   return (
     <>

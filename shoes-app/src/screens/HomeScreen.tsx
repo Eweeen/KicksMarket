@@ -1,15 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { IShoes } from "../interfaces/shoes.interface";
-import ShoesCard from "../components/ShoesCard";
+import ShoesCard from "../components/home/ShoesCard";
 import { getBrands, getShoes } from "../services/shoes";
-import { UserContext } from "../contexts/UserContext";
+import useHeaderOptions from "../components/navigation/useHeaderOptions";
 
 function HomeScreen() {
   const [shoes, setShoes] = useState([] as IShoes[]);
   const [brands, setBrands] = useState([] as string[]);
-
-  const { data, updateData } = useContext(UserContext);
 
   const findShoes = async () => {
     const { data, error } = await getShoes();
@@ -27,6 +25,8 @@ function HomeScreen() {
     findShoes();
     findBrands();
   }, []);
+
+  useHeaderOptions();
 
   return (
     <>
