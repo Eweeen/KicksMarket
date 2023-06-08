@@ -110,15 +110,17 @@ export const addCart = async (req: Request, res: Response) => {
       quantity: req.body.quantity,
     };
 
-    // Update shoes to decrement quantity
-    await Shoes.updateOne(
-      { _id: req.params.id, "sizes.size": req.body.size },
-      { $inc: { "sizes.$.quantity": -panier.quantity } }
-    );
-    // Update cart to user
-    await User.updateOne({ _id: user_id }, { $push: { panier: panier } });
+    await Promise.all([
+      // Update shoes to decrement quantity
+      Shoes.updateOne(
+        { _id: req.params.id, "sizes.size": req.body.size },
+        { $inc: { "sizes.$.quantity": -panier.quantity } }
+      ),
+      // Update cart to user
+      User.updateOne({ _id: user_id }, { $push: { panier: panier } }),
+    ]);
 
-    return res.status(200).send(true);
+    return res.status(200).json(true);
   }
 
   if (user.panier[0].quantity + +req.body.quantity > 5) {
@@ -128,18 +130,20 @@ export const addCart = async (req: Request, res: Response) => {
     });
   }
 
-  // Update shoes to decrement quantity
-  await Shoes.updateOne(
-    { _id: req.params.id, "sizes.size": req.body.size },
-    { $inc: { "sizes.$.quantity": -req.body.quantity } }
-  );
-  // Update cart to user in increment quantity
-  await User.updateOne(
-    { _id: user_id, "panier.shoes": req.params.id },
-    { $inc: { "panier.$.quantity": +req.body.quantity } }
-  );
+  await Promise.all([
+    // Update shoes to decrement quantity
+    Shoes.updateOne(
+      { _id: req.params.id, "sizes.size": req.body.size },
+      { $inc: { "sizes.$.quantity": -req.body.quantity } }
+    ),
+    // Update cart to user in increment quantity
+    User.updateOne(
+      { _id: user_id, "panier.shoes": req.params.id },
+      { $inc: { "panier.$.quantity": +req.body.quantity } }
+    ),
+  ]);
 
-  return res.status(200).send(true);
+  return res.status(200).json(true);
 };
 
 // TODO: compléter la fonction
@@ -182,4 +186,22 @@ export const getCart = async (req: Request, res: Response) => {
   }
 
   res.status(200).json(user.panier);
+};
+
+/* ============================================== */
+/* ==================== User ==================== */
+/* ============================================== */
+
+export const deleteUser = async (req: Request, res: Response) => {
+  // Get user id from token
+  const user_id = getUserId(req.headers.authorization?.split(" ")[1]!);
+
+  if (user_id !== req.params.id) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  // Delete user
+  await User.deleteOne({ _id: user_id });
+
+  res.status(200).json({ message: "User deleted" });
 };
