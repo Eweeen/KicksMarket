@@ -10,10 +10,10 @@ function ShoesScreen({ route }: { route: any }) {
   const [shoes, setShoes] = useState(route.params.shoes as IShoes);
   const [isFavoris, setIsFavoris] = useState(false);
 
-  const { favorites, addFavorite, removeFavorite } = useContext(UserContext);
+  const { favorites, addFavorite, removeFavorite, addCart } = useContext(UserContext);
 
-  const [selectedId, setSelectedId] = useState(undefined as number | undefined);
-  const [selectedNumber, setSelectedNumber] = useState(1);
+  const [selectedSize, setSelectedSize] = useState(undefined as number | undefined);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
   const numberOptions = Array.from({ length: 5 }, (_, index) => ({
     label: (index + 1).toString(),
     value: index + 1,
@@ -27,8 +27,13 @@ function ShoesScreen({ route }: { route: any }) {
     }
   }
 
-  const addToCart = () => {
-    if (!selectedId) return Alert.alert("Veuillez sélectionner une taille");
+  const addShoesToCart = async () => {
+    if (!selectedSize) return Alert.alert("Veuillez sélectionner une taille");
+    if (!selectedQuantity) return Alert.alert("Veuillez sélectionner une quantité");
+
+    const error = await addCart(shoes, selectedQuantity, selectedSize);
+
+    if (error) return Alert.alert(error);
 
     return Alert.alert("Ajouté au panier !");
   }
@@ -59,17 +64,17 @@ function ShoesScreen({ route }: { route: any }) {
                 <TouchableOpacity
                   style={[
                     styles.sizeContainer,
-                    item.size === selectedId
+                    item.size === selectedSize
                       ? { backgroundColor: "#000" }
                       : item.quantity > 0
                         ? { backgroundColor: "#CBCBCB" }
                         : { backgroundColor: "#EBEBEB" },
                   ]}
-                  onPress={() => item.quantity > 0 ? setSelectedId(item.size) : null}
+                  onPress={() => item.quantity > 0 ? setSelectedSize(item.size) : null}
                 >
                   <Text style={[
                     styles.size,
-                    item.size === selectedId
+                    item.size === selectedSize
                       ? { color: "#fff" }
                       : item.quantity > 0
                         ? { color: "#000" }
@@ -86,8 +91,8 @@ function ShoesScreen({ route }: { route: any }) {
 
             <View style={styles.quantity}>
               <RNPickerSelect
-                value={selectedNumber}
-                onValueChange={(value) => setSelectedNumber(value)}
+                value={selectedQuantity}
+                onValueChange={(value) => setSelectedQuantity(value)}
                 items={numberOptions}
                 Icon={() => <FontAwesome name="chevron-down" size={12} />}
               />
@@ -110,7 +115,7 @@ function ShoesScreen({ route }: { route: any }) {
             }
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.panier} onPress={() => addToCart()}>
+          <TouchableOpacity style={styles.panier} onPress={() => addShoesToCart()}>
             <Text style={styles.panierText}>Ajouter au panier</Text>
           </TouchableOpacity>
         </View>
