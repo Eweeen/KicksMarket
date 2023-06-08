@@ -1,29 +1,33 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { SafeAreaView, StyleSheet, TextInput, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Text } from "react-native";
 import CustomButton from "../components/CustomButton";
 import { CommonActions, NavigationProp } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { login } from "../services/auth";
+import { UserContext } from "../contexts/UserContext";
 
 function LoginScreen({ navigation }: { navigation: NavigationProp<ReactNavigation.RootParamList> }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<null | string>(null);
+  const [error, setError] = useState(null as string | null);
   const [loader, setLoader] = useState(false);
 
+  const { login } = useContext(UserContext);
+
   const submit = async () => {
+    if (loader) return;
+
     setError(null);
     setLoader(true);
     
-    const { data, error } = await login(email, password);
+    const token = await login(email, password);
 
-    if (error || !data) {
+    if (!token) {
       setLoader(false);
-      setError(error?.message ?? "Une erreur est survenue");
+      setError("Email ou mot de passe incorrect");
       return;
     }
 
-    AsyncStorage.setItem('@token', data.token);
+    await AsyncStorage.setItem('@token', token);
 
     // Redirect to Home
     const home = CommonActions.reset({
