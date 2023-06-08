@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 const panierSchema = new Schema({
   shoes: { type: Schema.Types.ObjectId, ref: "Shoes", required: true },
-  size: { type: String, required: true },
+  size: { type: Number, required: true },
   quantity: { type: Number, required: true },
 });
 
