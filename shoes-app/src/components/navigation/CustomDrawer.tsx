@@ -1,18 +1,20 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import { FontAwesome5 } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { CommonActions, useNavigation } from "@react-navigation/native";
+import { CommonActions } from "@react-navigation/native";
+import { UserContext } from "../../contexts/UserContext";
+import { useContext } from "react";
 
 const CustomDrawer = (props: any) => {
-  const navigation = useNavigation();
+  const { navigation } = props;
+  const { logout } = useContext(UserContext);
 
   const close = () => {
-    props.navigation.closeDrawer();
+    navigation.closeDrawer();
   }
 
-  const logout = async () => {
-    await AsyncStorage.removeItem('@token');
+  const submit = async () => {
+    logout();
 
     const firstPage = CommonActions.reset({
       index: 1,
@@ -38,7 +40,7 @@ const CustomDrawer = (props: any) => {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
 
-      <TouchableOpacity style={styles.btn} onPress={logout}>
+      <TouchableOpacity style={styles.btn} onPress={submit}>
         <Text style={styles.textButton}>Déconnexion</Text>
       </TouchableOpacity>
     </View>
