@@ -12,6 +12,7 @@ const schema = new Schema({
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
   birthdate: { type: Date, required: true },
+  avatar: { type: String, required: false },
   role: { type: String, required: true },
   panier: [panierSchema],
   favoris: [{ type: Schema.Types.ObjectId, ref: "Shoes" }],
