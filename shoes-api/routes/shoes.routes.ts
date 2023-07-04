@@ -141,6 +141,8 @@
  * @swagger
  * /shoes/home:
  *   get:
+ *     tags:
+ *       - Chaussures
  *     summary: Trouver les chaussures pour la page d'accueil
  *     description: Récupère les chaussures pour afficher sur la page d'accueil.
  *     security:
@@ -167,6 +169,8 @@
  * @swagger
  * /shoes/{id}:
  *   get:
+ *     tags:
+ *       - Chaussures
  *     summary: Trouver une chaussure par ID
  *     description: Récupère une chaussure en utilisant son ID.
  *     security:
@@ -198,6 +202,8 @@
  * @swagger
  * /brands:
  *   get:
+ *     tags:
+ *       - Chaussures
  *     summary: Trouver toutes les marques
  *     description: Récupère la liste de toutes les marques disponibles.
  *     security:
@@ -224,6 +230,8 @@
  * @swagger
  * /brand/{name}/shoes:
  *   get:
+ *     tags:
+ *       - Chaussures
  *     summary: Trouver les chaussures par marque
  *     description: Récupère la liste des chaussures d'une marque spécifique.
  *     security:
@@ -257,6 +265,8 @@
  * @swagger
  * /shoes:
  *   get:
+ *     tags:
+ *       - Chaussures
  *     summary: Trouver toutes les chaussures
  *     description: Récupère la liste de toutes les chaussures disponibles.
  *     security:
@@ -283,6 +293,8 @@
  * @swagger
  * /shoes:
  *   post:
+ *     tags:
+ *       - Chaussures
  *     summary: Ajouter une chaussure
  *     description: Ajoute une nouvelle chaussure à la liste des chaussures.
  *     security:
@@ -313,6 +325,8 @@
  * @swagger
  * /shoes/{id}:
  *   patch:
+ *     tags:
+ *       - Chaussures
  *     summary: Mettre à jour une chaussure
  *     description: Met à jour les informations d'une chaussure existante en utilisant son ID.
  *     security:
@@ -350,6 +364,8 @@
  * @swagger
  * /shoes/{id}:
  *   delete:
+ *     tags:
+ *       - Chaussures
  *     summary: Supprimer une chaussure
  *     description: Supprime une chaussure existante en utilisant son ID.
  *     security:

@@ -58,6 +58,8 @@
  * @swagger
  * /user/{user_id}/favorite/{id}:
  *   post:
+ *     tags:
+ *       - Utilisateurs
  *     summary: Ajouter une chaussure aux favoris
  *     description: Ajoute une chaussure aux favoris en utilisant son ID.
  *     security:
@@ -91,6 +93,8 @@
  * @swagger
  * /user/{user_id}/favorite/{id}:
  *   get:
+ *     tags:
+ *       - Utilisateurs
  *     summary: Obtenir un favori spécifique
  *     description: Récupère les détails d'un favori spécifique en utilisant l'ID de l'utilisateur et l'ID de la chaussure.
  *     security:
@@ -128,6 +132,8 @@
  * @swagger
  * /user/{user_id}/favorite/{id}:
  *   delete:
+ *     tags:
+ *       - Utilisateurs
  *     summary: Supprimer une chaussure des favoris
  *     description: Supprime une chaussure des favoris en utilisant son ID.
  *     security:
@@ -161,6 +167,8 @@
  * @swagger
  * /user/{user_id}/favorites:
  *   get:
+ *     tags:
+ *       - Utilisateurs
  *     summary: Obtenir les favoris d'un utilisateur
  *     description: Récupère les favoris d'un utilisateur en utilisant son ID.
  *     security:
@@ -194,6 +202,8 @@
  * @swagger
  * /user/{user_id}/cart/{id}:
  *   post:
+ *     tags:
+ *       - Utilisateurs
  *     summary: Ajouter un article au panier
  *     description: Ajoute un article au panier de l'utilisateur en utilisant son ID d'utilisateur et l'ID de l'article.
  *     security:
@@ -240,6 +250,8 @@
  * @swagger
  * /user/{user_id}/cart/{id}:
  *   delete:
+ *     tags:
+ *       - Utilisateurs
  *     summary: Supprimer un article du panier
  *     description: Supprime un article du panier de l'utilisateur en utilisant son ID d'utilisateur et l'ID de l'article.
  *     security:
@@ -286,6 +298,8 @@
  * @swagger
  * /user/{user_id}/cart:
  *   get:
+ *     tags:
+ *       - Utilisateurs
  *     summary: Obtenir le panier d'un utilisateur
  *     description: Récupère le contenu du panier d'un utilisateur en utilisant son ID.
  *     security:
@@ -319,6 +333,8 @@
  * @swagger
  * /user/{user_id}/avatar:
  *   post:
+ *     tags:
+ *       - Utilisateurs
  *     summary: Charger un avatar pour un utilisateur
  *     description: Charge un avatar pour l'utilisateur en utilisant son ID d'utilisateur et le champ "avatar" dans le formulaire multipart.
  *     security:
@@ -356,6 +372,8 @@
  * @swagger
  * /user/{user_id}/avatar:
  *   get:
+ *     tags:
+ *       - Utilisateurs
  *     summary: Afficher l'avatar d'un utilisateur
  *     description: Affiche l'avatar de l'utilisateur en utilisant son ID d'utilisateur.
  *     security:
@@ -388,6 +406,8 @@
  * @swagger
  * /user/{user_id}/password:
  *   patch:
+ *     tags:
+ *       - Utilisateurs
  *     summary: Mettre à jour le mot de passe d'un utilisateur
  *     description: Met à jour le mot de passe d'un utilisateur en utilisant son ID d'utilisateur.
  *     security:
@@ -425,6 +445,8 @@
  * @swagger
  * /user/{user_id}/delete:
  *   delete:
+ *     tags:
+ *       - Utilisateurs
  *     summary: Supprimer un utilisateur
  *     description: Supprime un utilisateur en utilisant son ID d'utilisateur.
  *     security:

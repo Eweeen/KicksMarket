@@ -1,5 +1,16 @@
 /**
  * @swagger
+ * tags:
+ *   - name: Authentification
+ *     description: Opérations d'authentification
+ *   - name: Utilisateurs
+ *     description: Opérations liées aux utilisateurs
+ *   - name: Chaussures
+ *     description: Opérations liées aux chaussures
+ */
+
+/**
+ * @swagger
  * components:
  *   schemas:
  *     SignUpRequest:
@@ -52,6 +63,8 @@
  * @swagger
  * /sign-up:
  *   post:
+ *     tags:
+ *       - Authentification
  *     summary: S'inscrire
  *     description: Permet à un utilisateur de s'inscrire en fournissant les informations requises.
  *     requestBody:
@@ -74,6 +87,8 @@
  * @swagger
  * /login:
  *   post:
+ *     tags:
+ *       - Authentification
  *     summary: Se connecter
  *     description: Permet à un utilisateur de se connecter en fournissant les informations d'identification.
  *     requestBody:
