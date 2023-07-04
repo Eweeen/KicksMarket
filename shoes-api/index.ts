@@ -21,9 +21,9 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Shoes API",
+      title: "KicksMarket",
       version: "1.0.0",
-      description: "A simple Express Shoes API",
+      description: "Application de vente de chaussures",
     },
     servers: [
       {
