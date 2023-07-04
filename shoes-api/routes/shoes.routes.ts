@@ -396,7 +396,6 @@ export default function (app: Express) {
   /* ====================================================== */
   /* ==================== Routes users ==================== */
   /* ====================================================== */
-  app.get("/shoes/home", authorize(["user", "admin"]), controller.findShoesHome);
   app.get("/shoes/:id", authorize(["user", "admin"]), validate(validateShoe), controller.findShoesById);
   app.get("/brands", authorize(["user", "admin"]), controller.findAllBrands);
   app.get("/brand/:name/shoes", authorize(["user", "admin"]), validate(validateBrand), controller.findAllByBrand);

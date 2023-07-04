@@ -51,33 +51,6 @@ export const login = async (req: Request, res: Response) => {
     return;
   }
 
-  const token = jwt.sign({ user }, process.env.KEY_PASSWORD!, {
-    expiresIn: "1h",
-  });
+  const token = jwt.sign({ user }, process.env.KEY_PASSWORD!, { expiresIn: "12h" });
   res.status(200).json({ token: token });
-};
-
-export const refreshToken = async (req: Request, res: Response) => {
-  const token = req.body.token;
-  if (!token) {
-    res.status(401).send({ message: "Token manquant" });
-    return;
-  }
-
-  jwt.verify(
-    token,
-    process.env.KEY_PASSWORD!,
-    (err: any, decodedToken: any) => {
-      if (err) {
-        res.status(401).send({ message: "Token invalide" });
-        return;
-      }
-
-      const user = decodedToken.user;
-      const newToken = jwt.sign({ user }, process.env.KEY_PASSWORD!, {
-        expiresIn: "1h",
-      });
-      res.status(200).json({ token: newToken });
-    }
-  );
 };

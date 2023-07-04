@@ -123,5 +123,4 @@ import { validateLogin, validateSignUp } from "../validations/auth.validation";
 export default function (app: Express) {
   app.post("/sign-up", validate(validateSignUp), controller.signUp);
   app.post("/login", validate(validateLogin), controller.login);
-  app.post("/refresh", controller.refreshToken);
 }

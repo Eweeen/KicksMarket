@@ -19,29 +19,6 @@ export const findShoes = async (req: Request, res: Response) => {
   }
 };
 
-export const findShoesHome = async (req: Request, res: Response) => {
-  try {
-    // Recherche des chaussures disponibles
-    const shoes = await Shoes.find({ hidden: false });
-
-    // Transformation des chaussures pour la page d'accueil
-    const shoesHome = shoes.map((shoe) => {
-      return {
-        _id: shoe._id,
-        name: shoe.name,
-        price: shoe.price,
-        brand: shoe.brand,
-        image: shoe.image,
-        isFavorite: false,
-      };
-    });
-
-    res.status(200).json(shoesHome);
-  } catch (e: any) {
-    res.status(500).json({ message: e.message });
-  }
-};
-
 export const findShoesById = async (req: Request, res: Response) => {
   try {
     // Recherche des chaussures par ID
